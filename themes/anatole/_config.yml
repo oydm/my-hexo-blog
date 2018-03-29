@@ -1,0 +1,30 @@
+# Blog
+keywords: 个人博客,PHP开发,程序员,后端开发,PHP,HTML,CSS,Linux,Mysql,Redis,Memcached,Nginx
+author: oydm,oydm258@foxmail.com
+description: Developer
+avatar: /images/favicon.png
+
+# Social Accounts
+twitter: 
+rss: https://segmentfault.com/u/wemesky
+weibo: 3202405747
+instagram: 
+github: oydm
+facebook: 100008927460448
+qq: 389602549
+
+# Comment
+duoshuo: 
+disqus: 
+gentie: 
+youyan: 
+# Valine comments https://valine.js.org
+valine:
+  enable: false # if you want use valine, please set enable: true
+  appid:  wilCIz4uO6xYucGLsNgEwj2E-gzGzoHsz# your leancloud appid
+  appkey:  x0f4n3ytydsRudo3KQCpEgGu# your leancloud appkey
+  notify: false # true/false:mail notify !!!Test,Caution. https://github.com/xCss/Valine/wiki/Valine-%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F%E4%B8%AD%E7%9A%84%E9%82%AE%E4%BB%B6%E6%8F%90%E9%86%92%E8%AE%BE%E7%BD%AE
+  verify: false # true/false:verify code
+  avatar: retro # avatar style https://github.com/xCss/Valine/wiki/avatar-setting-for-valine
+  placeholder: ヾﾉ≧∀≦)o来啊，快活啊! # comment box placeholder
+

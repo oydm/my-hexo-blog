@@ -1,0 +1,97 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="oydm,oydm258@foxmail.com"><title>POSIX函数简介 · 欧阳冬明</title><meta name="description" content="POSIX:简介：该模块包含了定义在 IEEE 1003.1(POSIX.1)标准文档里的函数的接口，通过其它手段无法访问。警告：通过POSIX函数，可以检索很多敏感数据，例如：posix_getpwnam()以及其它函数。当开启了安全模式，POSIX函数并不会执行任何的权限检测。因此，当正在上述的"><meta name="keywords" content="个人博客,PHP开发,程序员,后端开发,PHP,HTML,CSS,Linux,Mysql,Redis,Memcached,Nginx"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="/images/favicon.png" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/images/logo@2x.png" style="width:127px;"><h3 title=""><a href="/">欧阳冬明</a></h3><div class="description"><p>Developer</p></div></div></div><ul class="social-links"><li><a href="http://weibo.com/3202405747"><i class="fa fa-weibo"></i></a></li><li><a href="http://facebook.com/100008927460448"><i class="fa fa-facebook"></i></a></li><li><a href="http://github.com/oydm"><i class="fa fa-github"></i></a></li><li><a href="http://shang.qq.com/email/stop/email_stop.html?qq=389602549&amp;sig=a1c657365db7e82805ea4b2351081fc3ebcde159f8ae49b1&amp;tttt=1"><i class="fa fa-qq"></i></a></li><li><a href="https://segmentfault.com/u/wemesky"><i class="fa fa-rss"></i></a></li></ul><div class="footer"><a target="_blank" href="/"><span>Theme by </span></a><a href="https://www.caicai.me"> CaiCai </a><span>&</span><a href="https://github.com/Ben02/hexo-theme-Anatole"> Ben</a><div class="by_farbox"><a href="https://hexo.io/zh-cn/" target="_blank">Proudly published with Hexo&#65281;</a></div></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/archives">归档</a></li><li><a href="/about">关于</a></li><li><a href="/links">友链</a></li></div><div class="information"><div class="back_btn"><li><a class="fa fa-chevron-left" onclick="window.history.go(-1)"> </a></li></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a>POSIX函数简介</a></h3></div><div class="post-content"><h1 id="POSIX"><a href="#POSIX" class="headerlink" title="POSIX:"></a>POSIX:</h1><h2 id="简介："><a href="#简介：" class="headerlink" title="简介："></a>简介：</h2><p>该模块包含了定义在 IEEE 1003.1(POSIX.1)标准文档里的函数的接口，通过其它手段无法访问。<br>警告：<br>通过POSIX函数，可以检索很多敏感数据，例如：posix_getpwnam()以及其它函数。当开启了安全模式，POSIX函数并不会执行任何的权限检测。因此，当正在上述的环境下操作，强烈建议关闭POSIX扩展(在配置行中使用 ‘–disable-posix’)。  </p>
+<h2 id="安装："><a href="#安装：" class="headerlink" title="安装："></a>安装：</h2><p>POSIX函数默认是启用的，可通过 ‘–disable-posix’ 来禁用POSIX函数<br>预定义常量，分3大类：  </p>
+<p> 1.posix_access_constants - 权限相关，php5.1.0开始支持:  </p>
+<blockquote>
+<p>POSIX_F_OK - 检查文件是否存在<br>POSIX_R_OK - 检查文件是否存在，且具有 ‘读’ 权限<br>POSIX_W_OK - 检查文件是否存在，且具有 ‘写’ 权限<br>POSIX_X_OK - 检查文件是否存在，且具有 ‘执行’ 权限</p>
+</blockquote>
+<p>2.posix_mknod_constants - 文件类型，php5.1.0开始支持:  </p>
+<blockquote>
+<p>POSIX_S_IFBLK - 块特殊文件<br>POSIX_S_IFCHR - 字符特殊文件<br>POSIX_S_IFIFO - FIFO(pipe-管道)特殊文件<br>POSIX_S_IFREG - 普通文件<br>POSIX_S_IFSOCK - socket</p>
+</blockquote>
+<p>3.posix_setrlimit_constants - php7.0.0开始支持:  </p>
+<blockquote>
+<p>你不妨看一下下面参考页，关于你的操作系统的setrlimit()的注意点，有关于实现POSIX的limits的差异的解释，甚至是跨操作系统的声明。</p>
+<p>POSIX_RLIMIT_AS - 进程地址空间的最大尺寸，单位是bytes。也可查看PHP的 ‘memory_limit’ 配置指令<br>POSIX_RLIMIT_CORE - 核心文件的最大尺寸。如果设置为0，将不会生成核心文件<br>POSIX_RLIMIT_CPU - 进程可使用的CPU最大时间，单位是秒。当达到软限制(soft limit)，将发送一个 ‘SIGXCPU’ 信号，这个信号可以被 ‘pcntl_signal()’ 捕获。依赖于操作系统，每秒都会发送额外的 ‘SIGXCPU’<br>信号，直到达到硬限制(hard limit)，基于这点，会发送一个无法捕获的 ‘SIGKILL’ 信号。也可查看<br>‘set_time_limit()’<br>POSIX_RLIMIT_DATA - 进程数据段的最大尺寸，单位是bytes。这基本不会对PHP的执行造成任何影响，除非使用了一个叫做 ‘brk()’ 或 ‘sbrk()’<br>的扩展<br>POSIX_RLIMIT_FSIZE - 进程可以创建的文件的最大尺寸，单位是bytes<br>POSIX_RLIMIT_LOCKS - 进程可以创建的最大的锁定数量。仅支持非常老版的linux内核<br>POSIX_RLIMIT_MEMLOCK - 内存中，可以锁定的最大字节数<br>POSIX_RLIMIT_MSGQUEUE - 可以分配给 POSIX 消息队列的最大字节数。PHP不支持POSIX 消息队列，因此，这个限制没有任何影响，除非，你使用了一个实现了支持 ‘POSIX_RLIMIT_MSGQUEUE’ 的扩展<br>POSIX_RLIMIT_NICE - 进程可以设置 ‘renice’(linux进程的优先级之类的) 的最大值。值可以被设置为：20-我们设置的值，作为资源限制，不能设置为负<br>POSIX_RLIMIT_NOFILE - 进程可以打开的 &gt;(大于)最大文件描述符数字的值。<br>POSIX_RLIMIT_NPROC - 进程的真实用户ID可以创建的进程(和线程、或者线程，在一些操作系统上)的最大个数。<br>POSIX_RLIMIT_RSS - 进程的常驻集合的最大尺寸，单位是 pages<br>POSIX_RLIMIT_RTPRIO - 通过 ‘sched_setscheduler()’ 和 ‘sched_setparam()’ 系统调用，可以设置的最大真实时间优先。<br>POSIX_RLIMIT_RTTIME - 如果使用真实的时间调度，在不进行阻塞的系统调用下，进程可以消耗掉最大CPU时间，单位是微秒<br>POSIX_RLIMIT_SIGPENDING - 进程的真实用户ID，可以设置的信号队列的最大个数<br>POSIX_RLIMIT_STACK - 进程栈的最大尺寸，单位是bytes<br>POSIX_RLIMIT_INFINITY - 用于指明资源大小不受限制(给资源限制设置了一个无限大值)。</p>
+</blockquote>
+<h1 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h1><h2 id="posix-access-string-file-int-mode-POSIX-F-OK"><a href="#posix-access-string-file-int-mode-POSIX-F-OK" class="headerlink" title="posix_access(string $file[, int $mode = POSIX_F_OK])"></a>posix_access(string $file[, int $mode = POSIX_F_OK])</h2><p>查看用户对文件是否具有指定的权限  </p>
+<blockquote>
+<p>参数：<br>$file - 测试的文件名<br>$mode - 权限，包含：POSIX_F_OK, POSIX_R_OK, POSIX_W_OK, POSIX_X_OK的一个或多个。</p>
+</blockquote>
+<h2 id="posix-ctermid"><a href="#posix-ctermid" class="headerlink" title="posix_ctermid()"></a>posix_ctermid()</h2><p>返回当前进程所在的当前控制终端的路径名  </p>
+<blockquote>
+<p>返回值：   成功时，返回路径名。否则返回false，并设置错误号。可通过 ‘posix_get_last_error()’ 来获取</p>
+</blockquote>
+<h2 id="posix-errno-posix-get-last-error-别名"><a href="#posix-errno-posix-get-last-error-别名" class="headerlink" title="posix_errno() - posix_get_last_error()别名"></a>posix_errno() - posix_get_last_error()别名</h2><h2 id="posix-get-last-error"><a href="#posix-get-last-error" class="headerlink" title="posix_get_last_error()"></a>posix_get_last_error()</h2><p>检索最后的posix函数调用失败，返回的错误号。错误号关联的错误消息，可通过 ‘posix_strerror()’ 来获取  </p>
+<h2 id="posix-strerror-int-errno"><a href="#posix-strerror-int-errno" class="headerlink" title="posix_strerror(int $errno)"></a>posix_strerror(int $errno)</h2><p>通过给定的错误号，返回关联的POSIX系统错误消息  </p>
+<h2 id="posix-getcwd"><a href="#posix-getcwd" class="headerlink" title="posix_getcwd()"></a>posix_getcwd()</h2><p>获取当前脚本的工作目录的绝对路径  </p>
+<h2 id="posix-getegid"><a href="#posix-getegid" class="headerlink" title="posix_getegid()"></a>posix_getegid()</h2><p>返回当前进程的有效用户组ID  </p>
+<h2 id="posix-geteuid"><a href="#posix-geteuid" class="headerlink" title="posix_geteuid()"></a>posix_geteuid()</h2><p>返回当前进程的有效用户ID  </p>
+<h2 id="posix-getgid"><a href="#posix-getgid" class="headerlink" title="posix_getgid()"></a>posix_getgid()</h2><p>返回当前进程的真实用户组ID  </p>
+<h2 id="posix-getuid"><a href="#posix-getuid" class="headerlink" title="posix_getuid()"></a>posix_getuid()</h2><p>返回当前进程的真实用户ID  </p>
+<h2 id="posix-getgrgid-int-gid"><a href="#posix-getgrgid-int-gid" class="headerlink" title="posix_getgrgid(int $gid)"></a>posix_getgrgid(int $gid)</h2><p>通过传入组ID，获取给定的用户组的相关信息  </p>
+<h2 id="posix-getgrnam-string-name"><a href="#posix-getgrnam-string-name" class="headerlink" title="posix_getgrnam(string $name)"></a>posix_getgrnam(string $name)</h2><p>通过传入组名称，获取给定的用户组的相关信息  </p>
+<h2 id="posix-getgroups"><a href="#posix-getgroups" class="headerlink" title="posix_getgroups()"></a>posix_getgroups()</h2><p>获取当前进程的用户组集合<br>返回值：<br>返回一个索引数组，包含组id的集合  </p>
+<h2 id="posix-getlogin"><a href="#posix-getlogin" class="headerlink" title="posix_getlogin()"></a>posix_getlogin()</h2><p>返回拥有当前进程的用户的登陆名   </p>
+<blockquote>
+<p>示例：<br>   &lt;?php<br>  echo posix_getlogin(); // apache<br>   ?&gt;</p>
+</blockquote>
+<h2 id="posix-getpgid-int-pid"><a href="#posix-getpgid-int-pid" class="headerlink" title="posix_getpgid(int $pid)"></a>posix_getpgid(int $pid)</h2><p>获取指定进程的进程组标识符(进程组id)，返回整数  </p>
+<blockquote>
+<p>注意：<br>该函数不是POSIX函数，但是常见于BSD和System V的系统上。如果系统不支持该函数，在编译时就不会被包含进来。应该提前使用 ‘function_exists()’ 检查，存在再使用</p>
+</blockquote>
+<h2 id="posix-getpgrp"><a href="#posix-getpgrp" class="headerlink" title="posix_getpgrp()"></a>posix_getpgrp()</h2><p>获取当前进程的进程组标识符(进程组id)，返回整数<br>可查看：POSIX.1 和 POSIX系统上的getpgrp(2) 帮助手册，获取关于进程组的更多信息  </p>
+<h2 id="posix-getpid"><a href="#posix-getpid" class="headerlink" title="posix_getpid()"></a>posix_getpid()</h2><p>获取当前进程的进程标识符(进程id)  </p>
+<h2 id="posix-getppid"><a href="#posix-getppid" class="headerlink" title="posix_getppid()"></a>posix_getppid()</h2><p>获取当前进程的父进程标识符(父进程id)  </p>
+<h2 id="posix-getpwnam-string-username"><a href="#posix-getpwnam-string-username" class="headerlink" title="posix_getpwnam(string $username)"></a>posix_getpwnam(string $username)</h2><p>通过用户名，获取给定用户的信息  </p>
+<blockquote>
+<p>返回值：<br>   成功，返回一个关联数组，下标如下，失败返回false：<br>   name - 是一个短的、通常少于16个字符，非真实的、全名。应该同调用函数时，传递的$username参数一致，截断多余的字符<br>   passwd - 返回加密后的用户密码的字符串。通常，例如系统的shadow密码，使用 ‘*’ 代替<br>   uid - 用户ID<br>   gid - 用户组ID。使用 posix_getgrgid() 获取用户组名和它的成员列表<br>   gecos - 一个过时的元素，包含了 ‘,’ 分隔的用户的全名、办公室电话、办公室号码以及家庭电话号码。大多数的系统上，只有用户的全名有效。<br>   dir - 用户家目录的绝对路径<br>   shell - 可执行的用户的默认shell的绝对路径<br>示例：<br>   &lt;?php<br>  $userinfo = posix_getpwnam(‘tom’);<br>  print_r($userinfo);<br>   ?&gt;<br>输出：<br>   Array(<br>  [name]    =&gt; tom<br>  [passwd]  =&gt; x<br>  [uid]=&gt; 10000<br>  [gid]=&gt; 42<br>  [gecos]   =&gt; “tom,,,”   // ‘,’ 分隔<br>  [dir]=&gt; “/home/tom”<br>  [shell]   =&gt; “/bin/bash”<br>   )</p>
+</blockquote>
+<h2 id="posix-getpwuid-int-uid"><a href="#posix-getpwuid-int-uid" class="headerlink" title="posix_getpwuid(int $uid)"></a>posix_getpwuid(int $uid)</h2><p>通过用户id，获取给定用户的信息  </p>
+<h2 id="posix-getrlimit"><a href="#posix-getrlimit" class="headerlink" title="posix_getrlimit()"></a>posix_getrlimit()</h2><p>返回一个关于当前资源的软限制和硬限制的信息数组  </p>
+<blockquote>
+<p>每个资源有一个关联的软限制和硬限制。<br>软限制－查看linux系统<br>硬限制－查看linux系统<br>一个无特权的进程，可能只能设置它的软限制为：0-硬限制大小，并且必须低于硬限制的值。<br>返回值：<br>   返回一个关联数组，下标为定义的各种限制。每个限制都有一个软限制和硬限制。<br>   core - 核心文件的最大尺寸。当为0，不会创建核心文件。核心文件大于该设定值，将会被截断<br>   totalmem - 进程的内存最大值，单位为bytes<br>   virtualmem - 进程的虚拟内容的最大值，单位为bytes<br>   data - 进程的数据段的最大值，单位为bytes<br>   stack - 进程栈的最大值，单位为bytes<br>   rss - RAM中常驻的虚拟页面的最大个数<br>   maxproc - 可被调用进程的真实用户ID创建的最大进程数量<br>   memlock - 在RAM中，可被锁定的内存的最大字节数<br>   cpu - 进程允许使用的最大CPU时间<br>   filesize - 进程可以创建的文件的最大尺寸，单位是bytes<br>   openfiles - 进程可以打开的最大文件数量<br>示例：<br>   &lt;?php<br>  $limits = posix_getrlimit();<br>  print_r($limits);<br>   ?&gt;<br>输出：<br>   Array(<br>  [soft core] =&gt; 0<br>  [hard core] =&gt; unlimited<br>  [soft data] =&gt; unlimited<br>  [hard data] =&gt; unlimited<br>  [soft stack] =&gt; 8388608<br>  [hard stack] =&gt; unlimited<br>   )</p>
+</blockquote>
+<h2 id="posix-getsid-int-pid"><a href="#posix-getsid-int-pid" class="headerlink" title="posix_getsid(int $pid)"></a>posix_getsid(int $pid)</h2><p>返回指定进程的session ID。进程的session ID是会话领导者(session leader)的进程组id  </p>
+<h2 id="posix-initgroups-string-name-int-base-group-id"><a href="#posix-initgroups-string-name-int-base-group-id" class="headerlink" title="posix_initgroups(string $name, int $base_group_id)"></a>posix_initgroups(string $name, int $base_group_id)</h2><p>对指定的用户，计算其组访问列表  </p>
+<blockquote>
+<p> 参数：<br> $name - 指定的用户名<br> $base_group_id - 密码文件里的组ID  </p>
+</blockquote>
+<h2 id="posix-isatty-mixed-fd"><a href="#posix-isatty-mixed-fd" class="headerlink" title="posix_isatty(mixed $fd)"></a>posix_isatty(mixed $fd)</h2><p>检查文件描述符是否是一个有效的终端类型的设置(是否是tty)  </p>
+<blockquote>
+<p>参数：<br>$fd - 文件描述符，期望是一个文件资源或一个整型。整型将被假定为可以直接传递到基础系统调用的文件描述符。几乎在所有情况下，提供的是一个文件资源。</p>
+</blockquote>
+<h2 id="posix-kill-int-pid-int-sig"><a href="#posix-kill-int-pid-int-sig" class="headerlink" title="posix_kill(int $pid, int $sig)"></a>posix_kill(int $pid, int $sig)</h2><p>给指定的进程发送一个$sig指定的信号！<br>参数：  </p>
+<blockquote>
+<p>$pid - 进程id<br>$sig - PCNTL信号预定义常量  </p>
+</blockquote>
+<h2 id="posix-mkfifo-string-pathname-int-mode"><a href="#posix-mkfifo-string-pathname-int-mode" class="headerlink" title="posix_mkfifo(string $pathname, int $mode)"></a>posix_mkfifo(string $pathname, int $mode)</h2><p>创建一个特殊的FIFO文件，存在于文件系统，并且作为进程的双向通信桥梁</p>
+<blockquote>
+<p>参数：<br>$pathname - FIFO文件(管道)<br>$mode - 必须是8进制格式。新创建的FIFO的权限，也依赖于当前的umask()设置。新创建的文件权限是(mode &amp; ~umask)</p>
+</blockquote>
+<h2 id="posix-mknod-string-pathname-int-mode-int-major-0-int-minor-0"><a href="#posix-mknod-string-pathname-int-mode-int-major-0-int-minor-0" class="headerlink" title="posix_mknod(string $pathname, int $mode[, int $major = 0[, int $minor = 0]])"></a>posix_mknod(string $pathname, int $mode[, int $major = 0[, int $minor = 0]])</h2><p>创建一个特殊的或者一般的文件  </p>
+<blockquote>
+<p>参数：<br>$pathname - 创建的文件<br>$mode - 这个参数由文件类型(POSIX_S_IFREG,POSIX_S_IFCHR, POSIX_S_IFBLK,POSIX_S_IFIFO,POSIX_S_IFSOCK其中一个)和访问权限(0664等)，按位或组成。<br>$major -主设备内核标识符(当使用S_IFCHR或S_IFBLK时，需要传递该参数)   $minor - 监控设备内核标识符</p>
+</blockquote>
+<h2 id="posix-setegid-int-gid"><a href="#posix-setegid-int-gid" class="headerlink" title="posix_setegid(int $gid)"></a>posix_setegid(int $gid)</h2><p>设置当前进程的有效组ID。这是个特权函数，需要操作系统上具有特殊权限(通常是root权限)，才能执行该函数。  </p>
+<h2 id="posix-seteuid-int-uid"><a href="#posix-seteuid-int-uid" class="headerlink" title="posix_seteuid(int $uid)"></a>posix_seteuid(int $uid)</h2><p>设置当前进程的有效用户ID。这是个特权函数，需要操作系统上具有特殊权限(通常是root权限)，才能执行该函数。  </p>
+<h2 id="posix-setgid-int-gid"><a href="#posix-setgid-int-gid" class="headerlink" title="posix_setgid(int $gid)"></a>posix_setgid(int $gid)</h2><p>设置当前进程的真实用户组ID。这是个特权函数，需要操作系统上具有特殊权限(通常是root权限)，才能执行该函数。函数调用的适当的顺序是：首先调用 posix_setgid()，最后调用 posix_setuid()。<br>注意：如果是超级用户调用，也会设置有效用户组ID  </p>
+<h2 id="posix-setpgid-int-pid-int-pgid"><a href="#posix-setpgid-int-pid-int-pgid" class="headerlink" title="posix_setpgid(int $pid, int $pgid)"></a>posix_setpgid(int $pid, int $pgid)</h2><p>设置指定进程的进程组ID  </p>
+<p>##posix_setrlimit(int $resource, int $softlimit, int $hardlimit)<br>设置给定系统资源的软限制和硬限制。  </p>
+<blockquote>
+<p>参数：   $resource - 是posix_setrlimit_constants预定义常量   $softlimit -<br>软限制，任意设置或者 POSIX_RLIMIT_INFINITY - 无限大   $hardlimit - 硬限制，任意设置或者<br>POSIX_RLIMIT_INFINITY - 无限大</p>
+</blockquote>
+<h2 id="posix-setsid"><a href="#posix-setsid" class="headerlink" title="posix_setsid()"></a>posix_setsid()</h2><p>设置当前进程为session leader(会话领导者)  </p>
+<h2 id="posix-setuid-int-uid"><a href="#posix-setuid-int-uid" class="headerlink" title="posix_setuid(int $uid)"></a>posix_setuid(int $uid)</h2><p>设置当前进程的真实用户ID。这是个特权函数，需要操作系统上具有特殊权限(通常是root权限)，才能执行该函数。  </p>
+<h2 id="posix-times"><a href="#posix-times" class="headerlink" title="posix_times()"></a>posix_times()</h2><p>获取当前CUP使用信息  </p>
+<blockquote>
+<p>返回值：<br> 返回一个关联数组<br>ticks - 重启到现在，已经过去的 clock ticks 个数<br>utime - 当前进程使用的用户时间<br>stime - 当前进程使用的系统时间<br>cutime - 当前进程和子进程使用的用户时间<br>cstime - 当前进程和子进程使用的系统时间<br>警告：</p>
+</blockquote>
+<h2 id="posix-ttyname-mixed-fd"><a href="#posix-ttyname-mixed-fd" class="headerlink" title="posix_ttyname($mixed $fd)"></a>posix_ttyname($mixed $fd)</h2><p>返回当前打开的文件描述符所在的终端设备的绝对路径  </p>
+<blockquote>
+<p>参数：<br>$fd - 文件描述符，期望是一个文件资源或一个整型。整型将被假定为可以直接传递到基础系统调用的文件描述符。几乎在所有情况下，提供的是一个文件资源。</p>
+</blockquote>
+<h2 id="posix-uname"><a href="#posix-uname" class="headerlink" title="posix_uname()"></a>posix_uname()</h2><p>获取系统相关信息。  </p>
+<blockquote>
+<p>返回值：返回一个关于系统信息的关联数组<br>sysname - 操作系统名称(例如：Linux)<br>nodename - 系统名称(例如：valiant)<br>release - 操作系统的发布版(例如：2.6.15-1-686)<br>version - 操作系统版本(例如：#4 Tue Jul 20 17:01:36 MEST 1999)<br>machine - 系统平台(例如：i586)<br>domainname - DNS域名(例如：baidu.com)</p>
+</blockquote>
+</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2017-11-02</span><i class="fa fa-tag"></i><a class="tag" href="/categories/PHP/" title="PHP">PHP </a></div></div></div></div><div class="share"><div class="evernote"><a class="fa fa-bookmark" href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank"></a></div><div class="weibo"><a class="fa fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a></div><div class="twitter"><a class="fa fa-twitter" href="http://twitter.com/home?status=,http://oydm.github.io/PHP/posix/,欧阳冬明,POSIX函数简介,;"></a></div></div><div class="pagination"><ul class="clearfix"><li class="pre pagbuttons"><a class="btn" role="navigation" href="/PHP/process/" title="基于Swoole的Process进程管理模块支付结果回调服务">上一篇</a></li><li class="next pagbuttons"><a class="btn" role="navigation" href="/PHP/composer2/" title="PHP 开发者该知道的  Composer 小技巧">下一篇</a></li></ul></div></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script></body></html>

@@ -1,0 +1,44 @@
+.sidebar.animated.fadeInDown
+  .logo-title
+    .title
+      img(src= url_for('images/logo@2x.png'),style="width:127px;")
+      h3(title="")
+        a(href="/")= config.title
+      if theme.description
+        .description
+          p= theme.description
+
+  ul.social-links
+    if theme.twitter
+      li
+        a(href="https://twitter.com/" + theme.twitter)
+          i.fa.fa-twitter
+    if theme.instagram
+      li
+        a(href="http://instagram.com/" + theme.instagram)
+          i.fa.fa-instagram
+    if theme.weibo
+      li
+        a(href="http://weibo.com/" + theme.weibo)
+          i.fa.fa-weibo
+    if theme.facebook
+      li
+        a(href="http://facebook.com/" + theme.facebook)
+          i.fa.fa-facebook
+    if theme.github
+      li
+        a(href="http://github.com/" + theme.github)
+          i.fa.fa-github
+    if theme.qq
+      li
+        a(href="http://shang.qq.com/email/stop/email_stop.html?qq="+theme.qq+"&sig=a1c657365db7e82805ea4b2351081fc3ebcde159f8ae49b1&tttt=1")
+          i.fa.fa-qq
+    if theme.wechat
+      li
+        a(href= url_for(theme.wechat))
+        i.fa.fa-wechat
+    if theme.rss
+      li
+        a(href= url_for(theme.rss))
+          i.fa.fa-rss
+  include footer
