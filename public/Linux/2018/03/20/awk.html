@@ -1,0 +1,106 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="oydm-sky"><title>Linux awk 命令 · 欧阳冬明</title><meta name="description" content="AWK是一种处理文本文件的语言，是一个强大的文本分析工具。之所以叫AWK是因为其取了三位创始人 Alfred Aho，Peter Weinberger, 和 Brian Kernighan 的Family Name的首字符。
+
+语法awk [选项参数] &amp;#39;script&amp;#39; var=va"><meta name="keywords" content="欧阳冬明,oydm,欧阳冬明博客,oydm博客,oydm-sky,冬明,开发,golang,php,mysql"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><script src="/js/jquery.js"></script></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/images/logo@2x.png" style="width:127px;"><h3 title=""><a href="/">欧阳冬明</a></h3><div class="description"><p>心之所愿，无事不成。<br> Nothing is impossible to a willing heart.</p></div></div></div><ul class="social-links"><li><a href="https://github.com/oydm"><i class="fa fa-github"></i></a></li><li><a href="mailto:oydm258@foxmail.com"><i class="fa fa-envelope"></i></a></li><li><a href="https://zhihu.com/people/wemeSky"><i class="fa fa-mortar-board"></i></a></li></ul><div class="footer"><div class="p"> <span>© 2017 - 2020 </span><i class="fa fa-star"></i><span> oydm-sky</span></div><div class="by_farbox"><span>Powered by </span><a href="https://hexo.io/zh-cn/" target="_blank">Hexo </a><span> & </span><a href="https://github.com/mrcore/hexo-theme-Anatole-Core" target="_blank">Anatole-Core  </a></div><div class="beian"><a href="http://www.beian.miit.gov.cn/" target="_blank">粤ICP备15011643号</a><span style="height:10px;margin-left: 10px;">|</span><img src="https://qn.jixian.io/gongan.png" style="height:10px;margin-left: 10px;position: relative;top: 1px;"><span style="margin-left: 2px;">粤公网安备 44030402003967号</span></div></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/archives">归档</a></li><li><a href="/tags">标签</a></li><li><a href="/about">关于</a></li><li><a href="/guestbook">留言</a></li></div><div class="information"><div class="back_btn"><li><a class="fa fa-chevron-left" onclick="window.history.go(-1)"> </a></li></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a>Linux awk 命令</a></h3></div><div class="post-content"><blockquote>
+<p>AWK是一种处理文本文件的语言，是一个强大的文本分析工具。之所以叫AWK是因为其取了三位创始人 Alfred Aho，Peter Weinberger, 和 Brian Kernighan 的Family Name的首字符。</p>
+</blockquote>
+<h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><pre><code class="bash">awk [选项参数] &#39;script&#39; var=value file(s)
+或
+awk [选项参数] -f scriptfile var=value file(s)
+</code></pre>
+<h4 id="选项参数说明："><a href="#选项参数说明：" class="headerlink" title="选项参数说明："></a>选项参数说明：</h4><ul>
+<li>-F fs or –field-separator fs<br>指定输入文件折分隔符，fs是一个字符串或者是一个正则表达式，如-F:。</li>
+<li>-v var=value or –asign var=value<br>赋值一个用户定义变量。</li>
+<li>-f scripfile or –file scriptfile<br>从脚本文件中读取awk命令。</li>
+<li>-mf nnn and -mr nnn<br>对nnn值设置内在限制，-mf选项限制分配给nnn的最大块数目；-mr选项限制记录的最大数目。这两个功能是Bell实验室版awk的扩展功能，在标准awk中不适用。</li>
+<li>-W compact or –compat, -W traditional or –traditional<br>在兼容模式下运行awk。所以gawk的行为和标准的awk完全一样，所有的awk扩展都被忽略。</li>
+<li>-W copyleft or –copyleft, -W copyright or –copyright<br>打印简短的版权信息。</li>
+<li>-W help or –help, -W usage or –usage<br>打印全部awk选项和每个选项的简短说明。</li>
+<li>-W lint or –lint<br>打印不能向传统unix平台移植的结构的警告。</li>
+<li>-W lint-old or –lint-old<br>打印关于不能向传统unix平台移植的结构的警告。</li>
+<li>-W posix<br>打开兼容模式。但有以下限制，不识别：/x、函数关键字、func、换码序列以及当fs是一个空格时，将新行作为一个域分隔符；操作符<strong>和</strong>=不能代替^和^=；fflush无效。</li>
+<li>-W re-interval or –re-inerval<br>允许间隔正则表达式的使用，参考(grep中的Posix字符类)，如括号表达式[[:alpha:]]。</li>
+<li>-W source program-text or –source program-text<br>使用program-text作为源代码，可与-f命令混用。</li>
+<li>-W version or –version<br>打印bug报告信息的版本</li>
+</ul>
+<h3 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h3><p>log.txt文本内容如下：</p>
+<pre><code>2 this is a test
+3 Are you like awk
+This&#39;s a test
+10 There are orange,apple,mongo
+</code></pre><p>用法一：</p>
+<pre><code>awk &#39;{[pattern] action}&#39; {filenames}   # 行匹配语句 awk &#39;&#39; 只能用单引号
+</code></pre><p>实例：</p>
+<pre><code class="bash"># 每行按空格或TAB分割，输出文本中的1、4项
+ $ awk &#39;{print $1,$4}&#39; log.txt
+ ---------------------------------------------
+ 2 a
+ 3 like
+ This&#39;s
+ 10 orange,apple,mongo
+ # 格式化输出
+ $ awk &#39;{printf &quot;%-8s %-10s\n&quot;,$1,$4}&#39; log.txt
+ ---------------------------------------------
+ 2        a
+ 3        like
+ This&#39;s
+ 10       orange,apple,mongo
+</code></pre>
+<p>用法二：</p>
+<pre><code>awk -F  #-F相当于内置变量FS, 指定分割字符
+</code></pre><p>实例：</p>
+<pre><code class="bash"># 使用&quot;,&quot;分割
+ $  awk -F, &#39;{print $1,$2}&#39;   log.txt
+ ---------------------------------------------
+ 2 this is a test
+ 3 Are you like awk
+ This&#39;s a test
+ 10 There are orange apple
+ # 或者使用内建变量
+ $ awk &#39;BEGIN{FS=&quot;,&quot;} {print $1,$2}&#39;     log.txt
+ ---------------------------------------------
+ 2 this is a test
+ 3 Are you like awk
+ This&#39;s a test
+ 10 There are orange apple
+ # 使用多个分隔符.先使用空格分割，然后对分割结果再使用&quot;,&quot;分割
+ $ awk -F &#39;[ ,]&#39;  &#39;{print $1,$2,$5}&#39;   log.txt
+ ---------------------------------------------
+ 2 this test
+ 3 Are awk
+ This&#39;s a
+ 10 There apple
+</code></pre>
+<p>用法三：</p>
+<pre><code>awk -v  # 设置变量
+</code></pre><p>实例：</p>
+<pre><code class="bash"> $ awk -va=1 &#39;{print $1,$1+a}&#39; log.txt
+ ---------------------------------------------
+ 2 3
+ 3 4
+ This&#39;s 1
+ 10 11
+ $ awk -va=1 -vb=s &#39;{print $1,$1+a,$1b}&#39; log.txt
+ ---------------------------------------------
+ 2 3 2s
+ 3 4 3s
+ This&#39;s 1 This&#39;ss
+ 10 11 10s
+</code></pre>
+<p>用法四：</p>
+<pre><code>awk -f {awk脚本} {文件名}
+</code></pre><p>实例：</p>
+<pre><code class="bash"> $ awk -f cal.awk log.txt
+</code></pre>
+</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2018-03-20</span><i class="fa fa-tag"></i><a class="tag" href="/categories/Linux/" title="Linux">Linux </a><a class="tag" href="/tags/Linux/" title="Linux">Linux </a><span class="leancloud_visitors"></span></div></div></div></div><div class="share"><div class="evernote"><a class="fa fa-bookmark" href="" onclick="javascript:join_favorite()" ref="sidebar"></a></div><div class="weibo"><a class="fa fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a></div><div class="twitter"><a class="fa fa-twitter" href="http://twitter.com/home?status=,http://www.oydm.top/Linux/2018/03/20/awk.html,欧阳冬明,Linux awk 命令,;"></a></div></div><div class="pagination"><ul class="clearfix"><li class="pre pagbuttons"><a class="btn" role="navigation" href="/Linux/2018/03/27/monitor.html" title="linux的监控管理服务器命令">上一篇</a></li><li class="next pagbuttons"><a class="btn" role="navigation" href="/PHP/2018/03/15/process.html" title="基于Swoole的Process进程管理模块支付结果回调服务">下一篇</a></li></ul></div><script src="/js/visitors.js"></script><a id="comments"></a><div id="vcomments" style="margin:0 30px;"></div><script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="//cdn.jsdelivr.net/gh/xcss/valine@latest/dist/Valine.min.js"></script><script>var valine = new Valine({
+  el:'#vcomments',
+  notify:false || false, 
+  verify:false|| false, 
+  app_id:'wilCIz4uO6xYucGLsNgEwj2E-gzGzoHsz',
+  app_key:'x0f4n3ytydsRudo3KQCpEgGu',
+  placeholder:'念念不忘，必有回响...',
+  path: window.location.pathname,
+  serverURLs: '',
+  visitor:true,
+  recordIP:true,
+  avatar:'wavatar'
+})</script></div></div></div></div><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/add-bookmark.js"></script><script src="/js/baidu-tongji.js"></script><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/tororo.model.json"},"display":{"position":"left","width":200,"height":400,"hOffset":5,"vOffset":-25},"mobile":{"show":false,"scale":0.2},"react":{"opacityDefault":0.8,"opacityOnHover":0.2},"log":false});</script></body></html>

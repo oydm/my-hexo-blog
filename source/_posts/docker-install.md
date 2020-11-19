@@ -5,6 +5,8 @@ categories:
 - Docker
 tags:
 - 安装
+- CentOS
+- Docker
 ---
 
 近期了解到基于Docker部署的Pass云平台，公司部分项目迁移部署在Docker云平台。对Docker并不了解，准备开始熟悉一下，先成安装起。

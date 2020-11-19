@@ -1,0 +1,126 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="oydm-sky"><title>Ubuntu 16.04 安装snmp · 欧阳冬明</title><meta name="description" content="通过snmp的方式获取linux主机信息进行linux主机的监控
+安装需要安装软件有：
+
+snmpd：snmp服务端软件
+snmp：snmp客户端软件
+snmp-mibs-downloader：用来下载更新本地mib库的软件
+
+ubuntu一键安装命令：
+sudo apt-get install s"><meta name="keywords" content="欧阳冬明,oydm,欧阳冬明博客,oydm博客,oydm-sky,冬明,开发,golang,php,mysql"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><script src="/js/jquery.js"></script></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/images/logo@2x.png" style="width:127px;"><h3 title=""><a href="/">欧阳冬明</a></h3><div class="description"><p>心之所愿，无事不成。<br> Nothing is impossible to a willing heart.</p></div></div></div><ul class="social-links"><li><a href="https://github.com/oydm"><i class="fa fa-github"></i></a></li><li><a href="mailto:oydm258@foxmail.com"><i class="fa fa-envelope"></i></a></li><li><a href="https://zhihu.com/people/wemeSky"><i class="fa fa-mortar-board"></i></a></li></ul><div class="footer"><div class="p"> <span>© 2017 - 2020 </span><i class="fa fa-star"></i><span> oydm-sky</span></div><div class="by_farbox"><span>Powered by </span><a href="https://hexo.io/zh-cn/" target="_blank">Hexo </a><span> & </span><a href="https://github.com/mrcore/hexo-theme-Anatole-Core" target="_blank">Anatole-Core  </a></div><div class="beian"><a href="http://www.beian.miit.gov.cn/" target="_blank">粤ICP备15011643号</a><span style="height:10px;margin-left: 10px;">|</span><img src="https://qn.jixian.io/gongan.png" style="height:10px;margin-left: 10px;position: relative;top: 1px;"><span style="margin-left: 2px;">粤公网安备 44030402003967号</span></div></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/archives">归档</a></li><li><a href="/tags">标签</a></li><li><a href="/about">关于</a></li><li><a href="/guestbook">留言</a></li></div><div class="information"><div class="back_btn"><li><a class="fa fa-chevron-left" onclick="window.history.go(-1)"> </a></li></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a>Ubuntu 16.04 安装snmp</a></h3></div><div class="post-content"><p>通过snmp的方式获取linux主机信息进行linux主机的监控</p>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>需要安装软件有：</p>
+<ul>
+<li>snmpd：snmp服务端软件</li>
+<li>snmp：snmp客户端软件</li>
+<li>snmp-mibs-downloader：用来下载更新本地mib库的软件</li>
+</ul>
+<p>ubuntu一键安装命令：</p>
+<pre><code class="bash">sudo apt-get install snmpd snmp snmp-mibs-downloader
+</code></pre>
+<p>安装snmp-mibs-downloader的过程中会自动下载mib库，并保存在/usr/share/mibs目录中：</p>
+<pre><code class="bash">root@ubuntu:/home/sky# cd /usr/share/mibs/
+root@ubuntu:/usr/share/mibs# ll
+total 8
+drwxr-xr-x   2 root root 4096 Mar 28 06:13 ./
+drwxr-xr-x 142 root root 4096 Mar 28 06:13 ../
+lrwxrwxrwx   1 root root   18 Jun  7  2010 iana -&gt; /var/lib/mibs/iana/
+lrwxrwxrwx   1 root root   18 Jun  7  2010 ietf -&gt; /var/lib/mibs/ietf/
+</code></pre>
+<p>如果没有这写目录文件的话，可以执行命令安装：</p>
+<pre><code class="bash">sudo download-mibs
+</code></pre>
+<p>安装完后，系统已经自动开启了这个服务，可以检测下：</p>
+<pre><code class="bash">root@ubuntu:/usr/share/mibs# sudo service snmpd status
+● snmpd.service - LSB: SNMP agents
+   Loaded: loaded (/etc/init.d/snmpd; bad; vendor preset: enabled)
+   Active: active (running) since Wed 2018-03-28 01:24:32 UTC; 5h 1min ago
+     Docs: man:systemd-sysv-generator(8)
+
+</code></pre>
+<p>检测服务正常：</p>
+<pre><code class="bash">root@ubuntu:/usr/share/mibs# snmpwalk -v 2c -c public localhost 1.3.6.1.2.1.1.1
+iso.3.6.1.2.1.1.1.0 = STRING: &quot;Linux ubuntu 4.4.0-116-generic #140-Ubuntu SMP Mon Feb 12 21:23:04 UTC 2018 x86_64&quot;
+</code></pre>
+<p>有正常信息返回，安装OK，接下来做一些配置</p>
+<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><p>snmp的配置文件位于/etc/snmp/snmpd.conf,在配置之前最好对配置文件先做一个备份：</p>
+<h3 id="配置节点"><a href="#配置节点" class="headerlink" title="配置节点"></a>配置节点</h3><p>修改/etc/snmp/snmpd.conf文件，将下面两行注释掉：</p>
+<pre><code class="bash">#view   systemonly  included   .1.3.6.1.2.1.1
+#view   systemonly  included   .1.3.6.1.2.1.25.1
+</code></pre>
+<p>并在下面增加一行：</p>
+<pre><code class="bash">view  systemonly  included  .1
+</code></pre>
+<p>这样配置是为量获取更多的节点信息。</p>
+<p>修改完后，重启snmp服务并测试一下：</p>
+<pre><code class="bash">root@ubuntu:/etc/snmp# sudo service snmpd restart
+root@ubuntu:/etc/snmp# snmpwalk -v 2c -c public localhost .1.3.6.1.4.1.2021.4.3.0
+iso.3.6.1.4.1.2021.4.3.0 = INTEGER: 2046968
+</code></pre>
+<p>OK，没有问题！不过需要注意的是，这里.1.3.6.1.4.1.2021.4.3.0表示的是LInux主机交换空间总量的一个节点，而输出2046968，就说明我们的主机上的交换空间总量大概就是2GB左右。</p>
+<h3 id="配置MIB库"><a href="#配置MIB库" class="headerlink" title="配置MIB库"></a>配置MIB库</h3><p>修改/etc/snmp/snmp.conf配置文件，将mibs : 注释掉：</p>
+<pre><code class="bash">
+# As the snmp packages come without MIB files due to license reasons, loading
+# of MIBs is disabled by default. If you added the MIBs you can reenable
+# loading them by commenting out the following line.
+
+#mibs :
+
+</code></pre>
+<p>重启snmp服务并测试一下：</p>
+<pre><code class="bash">root@ubuntu:/etc/snmp# sudo service snmpd restart
+root@ubuntu:/etc/snmp# snmpwalk -v 2c -c public localhost .1.3.6.1.4.1.2021.4.3.0
+UCD-SNMP-MIB::memTotalSwap.0 = INTEGER: 2046968 kB
+</code></pre>
+<p>命令中的.1.3.6.1.4.1.2021.4.3.0为OID节点，常用一些节点可以在网上查找:<a href="https://www.cnblogs.com/aspx-net/p/3554044.html" target="_blank" rel="noopener">SNMP监控一些常用OID的总结</a></p>
+<h3 id="配置共同体"><a href="#配置共同体" class="headerlink" title="配置共同体"></a>配置共同体</h3><p>共同体 类似为密码认证，前面我们在使用snmp的时候命令中有-c public 其中public为默认的共同体，</p>
+<p>修改配置文件/etc/snmp/snmpd.conf，将</p>
+<pre><code class="bash">#rocommunity public  localhost
+                                                 #  Default access to basic system info
+ rocommunity public  default    -V systemonly
+                                                 #  rocommunity6 is for IPv6
+ rocommunity6 public  default   -V systemonly
+
+</code></pre>
+<p>修改为：</p>
+<pre><code class="bash">
+#rocommunity public  localhost
+                                                 #  Default access to basic system info
+ rocommunity sky  default    -V systemonly
+                                                 #  rocommunity6 is for IPv6
+ rocommunity6 sky  default   -V systemonly
+
+</code></pre>
+<p>可以重启再用命令测试一下，你会发现前面的命令并不能正常的返回信息量，将命令中的共同体修改为我们指定的，比如sky：</p>
+<pre><code class="bash">root@ubuntu:/etc/snmp# snmpwalk -v 2c -c sky localhost  .1.3.6.1.2.1.25.2.2.0
+HOST-RESOURCES-MIB::hrMemorySize.0 = INTEGER: 2029876 KBytes
+</code></pre>
+<h3 id="允许远程访问"><a href="#允许远程访问" class="headerlink" title="允许远程访问"></a>允许远程访问</h3><p>默认情况下，snmp服务只是对本地开启，是无法通过远程获取该主机的snmp信息的：</p>
+<pre><code class="bash">root@ubuntu:/etc/snmp# sudo netstat -antup | grep 161 
+udp        0      0 127.0.0.1:161           0.0.0.0:*                           23013/snmpd
+</code></pre>
+<p>可以看到，161端口只对本机开放（161端口号是snmp服务的端口号），我们需要修改一下，让snmp服务对外开放。</p>
+<p>修改/etc/snmp/snmpd.conf配置文件,将下面一行注释掉：</p>
+<pre><code class="bash">agentAddress  udp:127.0.0.1:161
+</code></pre>
+<p>同时取消注释：</p>
+<pre><code class="bash">#agentAddress udp:161,udp6:[::1]:161
+</code></pre>
+<p>重启服务你会发现短裤已经对外开放了</p>
+<pre><code class="bash">root@ubuntu:/etc/snmp# sudo service snmpd restart
+root@ubuntu:/etc/snmp# sudo netstat -antup | grep 161 
+udp        0      0 0.0.0.0:161             0.0.0.0:*                           25471/snmpd     
+udp6       0      0 ::1:161                 :::*                                25471/snmpd
+</code></pre>
+<h3 id="远程测试"><a href="#远程测试" class="headerlink" title="远程测试"></a>远程测试</h3><p>将命令中的localhost换成你要测试的远程主机ip即可。</p>
+</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2018-03-29</span><i class="fa fa-tag"></i><a class="tag" href="/categories/Linux/" title="Linux">Linux </a><a class="tag" href="/tags/Linux/" title="Linux">Linux </a><span class="leancloud_visitors"></span></div></div></div></div><div class="share"><div class="evernote"><a class="fa fa-bookmark" href="" onclick="javascript:join_favorite()" ref="sidebar"></a></div><div class="weibo"><a class="fa fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a></div><div class="twitter"><a class="fa fa-twitter" href="http://twitter.com/home?status=,http://www.oydm.top/Linux/2018/03/29/snmp.html,欧阳冬明,Ubuntu 16.04 安装snmp,;"></a></div></div><div class="pagination"><ul class="clearfix"><li class="pre pagbuttons"><a class="btn" role="navigation" href="/Docker/2018/06/12/docker-install.html" title="CentOS 安装 Docker CE">上一篇</a></li><li class="next pagbuttons"><a class="btn" role="navigation" href="/Linux/2018/03/27/monitor.html" title="linux的监控管理服务器命令">下一篇</a></li></ul></div><script src="/js/visitors.js"></script><a id="comments"></a><div id="vcomments" style="margin:0 30px;"></div><script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="//cdn.jsdelivr.net/gh/xcss/valine@latest/dist/Valine.min.js"></script><script>var valine = new Valine({
+  el:'#vcomments',
+  notify:false || false, 
+  verify:false|| false, 
+  app_id:'wilCIz4uO6xYucGLsNgEwj2E-gzGzoHsz',
+  app_key:'x0f4n3ytydsRudo3KQCpEgGu',
+  placeholder:'念念不忘，必有回响...',
+  path: window.location.pathname,
+  serverURLs: '',
+  visitor:true,
+  recordIP:true,
+  avatar:'wavatar'
+})</script></div></div></div></div><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script><script src="/js/add-bookmark.js"></script><script src="/js/baidu-tongji.js"></script><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/tororo.model.json"},"display":{"position":"left","width":200,"height":400,"hOffset":5,"vOffset":-25},"mobile":{"show":false,"scale":0.2},"react":{"opacityDefault":0.8,"opacityOnHover":0.2},"log":false});</script></body></html>
