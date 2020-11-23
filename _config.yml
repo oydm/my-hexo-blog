@@ -57,7 +57,7 @@ index_generator:
   path: ''
   per_page: 10
   order_by: -date
-  
+
 # Category & Tag
 default_category: other
 category_map:
@@ -86,16 +86,15 @@ theme: anatole-core
 #  type: git
 #  repo: git@42.192.128.107:hexo.git
 
-deploy:
-  type: ftpsync
-  host: 42.192.128.107
-  user: oydm_top
-  pass: t2rPLaKT7axJPcss
-  remote: /
-  port: 21
-  ignore: 
-  connections: 1
-  verbose: true
+#deploy:
+#  type: rsync
+#  host: 42.192.128.107
+#  user: root
+#  root: /www/wwwroot/oydm.top
+#  port: 22
+#  delete: true
+#  ignore_errors: false
+#  verbose: true
 
 #deploy:
 #  type: sftp
@@ -104,7 +103,7 @@ deploy:
 #  pass: OYdm360782!
 
 archive_generator:
-  per_page: 0  
+  per_page: 0
   yearly: false
   monthly: false
   daily: false

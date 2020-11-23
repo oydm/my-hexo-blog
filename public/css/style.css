@@ -173,7 +173,7 @@ a:hover, a:active {
   width: 20%;
   -webkit-background-size: cover;
   background-size: cover;
-  background-color: #fff;
+  background-color: #f0f0f0;
   height: 100%;
   transition: 0.8s;
   top: 0;
@@ -274,12 +274,12 @@ a:hover, a:active {
 
 .post .post-content h1 {
   color: #5F5F5F;
-  font-size: 20px;
+  font-size: 24px;
   font-weight: 600;
 }
 .post .post-content h2 {
   color: #5F5F5F;
-  font-size: 19px;
+  font-size: 20px;
 }
 .post .post-content h3 {
   color: #5F5F5F;
@@ -288,16 +288,16 @@ a:hover, a:active {
 }
 .post .post-content h4 {
   color: #5F5F5F;
-  font-size: 17px;
+  font-size: 16px;
 }
 .post .post-content h5 {
   color: #5F5F5F;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
 }
 .post .post-content h6 {
   color: #5F5F5F;
-  font-size: 15px;
+  font-size: 12px;
 }
 
 .post .post-footer {
@@ -412,7 +412,7 @@ a:hover, a:active {
   position: absolute;
   width: 100%;
   padding-bottom: 5px;
-  background: #fff;
+  background: #f0f0f0;
 }
 .footer a {
   color: #A6A6A6;

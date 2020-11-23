@@ -39,7 +39,7 @@
 }
 
 pre {
-  font-size: 15px;
+  font-size: 14px;
   background-color: #f0f0f0!important;
   font-family: 'Roboto Mono','Lucida Console','Trebuchet MS','Courier New', Monaco, courier,'PingFang SC','Hiragino Sans GB','Microsoft Jhenghei','Microsoft YaHei', monospace!important
 }
@@ -50,7 +50,8 @@ figure.highlight {
   border-radius: 2px!important;
   line-height: 1.1em!important;
   background-color: #f8f8f8!important;
-  overflow-x: auto!important
+  overflow-x: auto!important;
+  font-size: 14px
 }
 
 figure.highlight table,figure.highlight tr,figure.highlight td {
