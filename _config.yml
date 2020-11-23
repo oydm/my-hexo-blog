@@ -36,18 +36,18 @@ external_link: true # Open external links in new tab
 external_link.enable: true
 filename_case: 0
 render_drafts: false
-post_asset_folder: false
+post_asset_folder: true
 relative_link: false
 future: true
 highlight:
-  enable: false
+  enable: true
   line_number: true
   auto_detect: true
   tab_replace:
 prismjs:
-  enable: true
-  preprocess: true
-  line_number: true
+  enable: false
+  preprocess: false
+  line_number: false
   tab_replace: ''
 # Home page setting
 # path: Root path for your blogs index page. (default = '')
